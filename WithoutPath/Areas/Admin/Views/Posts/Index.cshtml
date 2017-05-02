@@ -1,0 +1,102 @@
+﻿@model WithoutPath.DTO.PageableData<WithoutPath.DAL.Post>
+
+@{
+    ViewBag.Title = "Without Posts";
+    Layout = "~/Areas/Default/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Admin/post-index.js")
+}
+
+@section styles {
+    @Styles.Render("~/Content/background_fix.css")
+}
+
+<div class="main-panel main-wrapper">
+
+    <h2>Without Posts</h2>
+
+    @using (Html.BeginForm("Index", "Posts", FormMethod.Post, new { @class = "form-search", id = "SearchForm" }))
+    {
+        @Html.Hidden("SearchString", string.Empty)
+        <input type="text" id="SearchText" class="Search" placeholder="Введите текст" value="@ViewBag.SearchString" />
+        <i id="SearchSubmit" class="fa fa-search"></i>
+    }
+
+    @using (Html.BeginForm("Delete", "Posts", FormMethod.Post, new { @class = "form-search", id = "DeleteForm" }))
+    {
+        @Html.Hidden("PostID", string.Empty)
+        @Html.AntiForgeryToken()
+    }
+
+    <table class="common-table common-table-hover">
+        <thead>
+            <tr>
+                <th class="common-table-cell-small">ID</th>
+                <th class="common-table-cell-medium">Header</th>
+                <th class="common-table-cell-medium">Character</th>
+                <th class="common-table-cell-medium">Adde dDate</th>
+                <th class="common-table-cell-small">Is Fixed</th>
+                <th class="common-table-cell-small">Is Internal</th>
+                <th class="common-table-cell-small">Is Verified</th>
+                <th class="common-table-cell-small"></th>
+            </tr>
+        </thead>
+        <tbody>
+           
+                <tr>
+                    <td class="common-table-cell-small"></td>
+                    <td class="common-table-cell-medium"></td>
+                    <td class="common-table-cell-medium"></td>
+                    <td class="common-table-cell-medium"></td>
+                    <td class="common-table-cell-small"></td>
+                    <td class="common-table-cell-small"></td>
+                    <td class="common-table-cell-small"></td>
+                    <td class="common-table-cell-small">
+                        <div class="table-controls">
+                            <a href="@Url.Action("Edit", "Posts")" target="_blank"><i class="fa fa-plus" title="Добавить"></i></a>
+                        </div>
+                    </td>
+                </tr>
+
+                @foreach (var item in Model.List)
+                {
+                    <tr>
+                        <td class="common-table-cell-small">
+                            @item.Id
+                        </td>
+                        <td class="common-table-cell-medium">
+                            @item.Header
+                        </td>
+                        <td class="common-table-cell-medium">
+                            @item.Character.Name
+                        </td>
+                        <td class="common-table-cell-medium">
+                            @(item.AddedDate.Day + "." + item.AddedDate.Month + "." + item.AddedDate.Year)
+                        </td>
+                        <td class="common-table-cell-small">
+                            @item.IsFixed
+                        </td>
+                        <td class="common-table-cell-small">
+                            @item.IsInternal
+                        </td>
+                        <td class="common-table-cell-small">
+                            @item.IsVerified
+                        </td>
+                        <td class="common-table-cell-small">
+                            <div class="table-controls">
+                                <a href="@Url.Action("Edit", "Posts", new { Id = item.Id })" target="_blank"><i class="fa fa-pencil" title="Редактировать"></i></a>
+                                <i class="fa fa-trash" postid="@item.Id" title="Удалить"></i>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+    <div class="pagination">
+        @Html.PageLinks(Model.PageNo, Model.CountPage, x => Url.Action("Index", new { page = x, ViewBag.SearchString }))
+    </div>
+</div>

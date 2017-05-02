@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Without Map";
+    Layout = "~/Areas/Default/Views/Shared/_Layout.cshtml";
+}
+
+
+@section scripts {
+    @Scripts.Render("~/Scripts/jquery.signalR-2.2.1.min.js")
+    @Scripts.Render("~/signalr/hubs")
+    @Scripts.Render("~/bundles/withoutmap")
+}
+<div class="map-wrapper">  
+    <div id="Layout"></div>
+    <ul id="contextMenu"></ul>
+    <div id="Offset">
+        <span id="GoToDefault"><i class="fa fa-home"></i></span>
+        <ul>
+            <li>X: <samn id="Offes_X">0</samn></li>
+            <li>Y: <samn id="Offes_Y">0</samn></li>
+        </ul>
+    </div>
+</div>
+<div class="info-wrapper">
+    <div id="Info"></div>
+</div>
+

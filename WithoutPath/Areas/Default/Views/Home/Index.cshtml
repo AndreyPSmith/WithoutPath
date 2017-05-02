@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Without Home";
+    Layout = "~/Areas/Default/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/connectthree")
+    @Scripts.Render("~/bundles/gridstack")
+    @Scripts.Render("~/Scripts/Default/home-index.js")
+}
+
+@section styles {
+    @Styles.Render("~/Content/gridstack.css")
+}
+
+<div id="CanvasWrapper">
+    <canvas id="ConnectThree"></canvas>
+</div>
+<div class="main-page">
+    <div class="main-page-header"><h2>Without Path</h2></div>
+
+    <div class="grid-stack">
+    </div>
+</div>
+
+

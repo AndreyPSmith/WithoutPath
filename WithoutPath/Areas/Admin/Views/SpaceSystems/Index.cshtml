@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "Without Space";
+    Layout = "~/Areas/Default/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/withoutsystems")
+}
+
+@section styles {
+    @Styles.Render("~/Content/background_fix.css")
+}
+
+<div class="main-panel main-wrapper" ng-controller="SpaceSystemsCtrl">
+
+    <h2>Without Space</h2>
+
+    <input type="text" class="Search" ng-model="PageableData.SearchString" placeholder="Введите текст" />
+    <i class="fa fa-search" ng-click="Search();"></i>
+
+    <table class="common-table common-table-hover">
+        <thead>
+            <tr>
+                <th class="common-table-cell-small">ID</th>
+                <th class="common-table-cell-medium">EveID</th>
+                <th class="common-table-cell-small">Type</th>
+                <th class="common-table-cell-medium">Name</th>
+                <th class="common-table-cell-medium">Security</th>
+                <th class="common-table-cell-large">Type
+                        <i  class="fa fa-sort-desc" title="Сортировать" ng-click="ToggleSortDropdown();"></i>
+                        <div ng-if="PageableData.ShowTypeSortDropdown" class="relative">
+                            <div class="accordion">
+                                <div class="section" ng-repeat="group in PageableData.SystemTypes">
+                                    <input ng-if="group.Class != 'C1'" name="accordion-1" type="radio" id="section-{{group.$$hashKey}}" value="toggle">
+                                    <input ng-if="group.Class == 'C1'" name="accordion-1" type="radio" id="section-{{group.$$hashKey}}" checked="checked">
+                                    <label for="section-{{group.$$hashKey}}"><span>{{group.Class}}</span></label>
+                                    <div class="content">
+                                        <ul>
+                                            <li ng-repeat="type in group.Types" ng-click="SetSortSystemType(type);">
+                                                <span title="{{type.Description}}">{{(type.Type) ? type.Type : "None"}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <span ng-if="PageableData.TypeSortValue" class="sort-dropdown-selected-value">
+                    <br/>
+                    <span>=[{{PageableData.TypeSortValue.Class}}<span ng-if="PageableData.TypeSortValue.Type"> ({{PageableData.TypeSortValue.Type}})</span>]</span>
+                    <i  class="fa fa-times" title="Удалить" ng-click="SetSortSystemType();"></i>
+                    </span>
+                </th>
+                <th class="common-table-cell-medium">Statics</th>
+                <th class="common-table-cell-large">Note</th>
+                <th class="common-table-cell-small">Warning</th>
+                <th class="common-table-cell-medium">Link To</th>
+                <th class="common-table-cell-small">Home</th>
+                <th class="common-table-cell-small">
+                    <div class="table-controls">
+                        <i class="fa fa-floppy-o" title="Сохранить" ng-click="Save();"></i>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="common-table-cell-small"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-small"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-large"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-large"></td>
+                <td class="common-table-cell-small"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-small"></td>
+                <td class="common-table-cell-small">
+                    <div class="table-controls">
+                        <i class="fa fa-plus" title="Добавить" ng-click="Add();"></i>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-repeat="item in PageableData.List" ng-class="{none: item.IsEdit, error : item.IsToDelete}">
+                <td class="common-table-cell-small">{{item.Id}}</td>
+                <td class="common-table-cell-medium">
+                    <span ng-if="!item.IsEdit">{{item.EveID}}</span>
+                    <input ng-if="item.IsEdit" type="number" min="0" ng-model="item.EveID" />
+                </td>
+                <td class="common-table-cell-small">
+                    <span ng-if="!item.IsEdit">{{(item.IsWormhole) ? "Wormhole" : "Empire"}}</span>
+                    <input type="checkbox" ng-if="item.IsEdit" id="IsWormhole{{item.$$hashKey}}" ng-model="item.IsWormhole" />
+                    <label class="system-type-label" ng-if="item.IsEdit" for="IsWormhole{{item.$$hashKey}}">{{(item.IsWormhole) ? "Wormhole" : "Empire"}}</label>
+                </td>
+                <td class="common-table-cell-medium">
+                    <span ng-if="!item.IsEdit">{{item.Name}}</span>
+                    <input ng-if="item.IsEdit" type="text" ng-model="item.Name" />
+                    <span class="field-validation-error text-danger" ng-if="item.Name && item.Validation.Name">{{item.Validation.Name}}</span>
+                </td>
+                <td class="common-table-cell-medium">
+                    <span ng-if="!item.IsEdit">{{item.Security}}</span>
+                    <input ng-if="item.IsEdit" type="number" min="-1" max="1" step="0.1" ng-model="item.Security" />
+                </td>
+                <td class="common-table-cell-large">
+                    <span ng-if="!item.IsEdit && !item.SystemType">None</span>
+                    <span ng-if="item.SystemType" title="{{item.SystemType.Description}}">
+                        <span>{{item.SystemType.Class}}</span><span ng-if="item.SystemType.Type"> ({{item.SystemType.Type}})</span>
+                    </span>
+                    <i ng-if="item.IsEdit && item.SystemType" class="fa fa-times system-type" title="Удалить" ng-click="RemoveSystemType(item);"></i>
+
+                    <i ng-if="item.IsEdit && !item.SystemType" class="fa fa-plus" title="Добавить" ng-click="ShowSystemTypesDropdown(item);"></i>
+                    <div ng-if="item.IsEdit && !item.SystemType && item.IsShowDropdown" class="relative">
+                        <div class="accordion">
+                            <div class="section" ng-repeat="group in PageableData.SystemTypes">
+                                <input ng-if="group.Class != 'C1'" name="accordion-1" type="radio" id="section-{{group.$$hashKey}}" value="toggle">
+                                <input ng-if="group.Class == 'C1'" name="accordion-1" type="radio" id="section-{{group.$$hashKey}}" checked="checked">
+                                <label for="section-{{group.$$hashKey}}"><span>{{group.Class}}</span></label>
+                                <div class="content">
+                                    <ul>
+                                        <li ng-repeat="type in group.Types" ng-click="AddSystemType(item,type);">
+                                            <span title="{{type.Description}}">{{(type.Type) ? type.Type : "None"}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="nested-table-wrapper">
+                    <table class="nested-table">
+                        <tbody>
+                            <tr ng-repeat="static in item.SpaceSystemStatics">
+                                <td class="common-table-cell-medium nested-table-cell">
+                                    <span title="{{static.Static.Description}}">{{static.Static.Name}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="common-table-cell-large">
+                    <span ng-if="!item.IsEdit">{{(item.Note) ? item.Note : "-//-"}}</span>
+                    <textarea ng-if="item.IsEdit" style="resize:vertical;" ng-model="item.Note" rows="3"></textarea>
+                </td>
+                <td class="common-table-cell-small">
+                    <span ng-if="!item.IsEdit">{{(item.Warning) ? "True" : "False"}}</span>
+                    <input type="checkbox" ng-if="item.IsEdit" id="Warning{{item.$$hashKey}}" ng-model="item.Warning" />
+                    <label class="system-type-label" ng-if="item.IsEdit" for="Warning{{item.$$hashKey}}">{{(item.Warning) ? "True" : "False"}}</label>
+                </td>
+                <td class="nested-table-wrapper">
+                    <table class="nested-table">
+                        <tbody>
+                            <tr ng-repeat="link in item.Links">
+                                <td class="common-table-cell-medium nested-table-cell">
+                                    <span>{{link.SpaceSystem.Name}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="common-table-cell-small">
+                    <span ng-if="!item.IsEdit">{{(item.IsHome) ? "True" : "False"}}</span>
+                    <input type="checkbox" ng-if="item.IsEdit" id="{{'IsHome'+item.$$hashKey}}" ng-model="item.IsHome" />
+                    <label class="bool-label" ng-if="item.IsEdit" for="{{'IsHome'+item.$$hashKey}}">{{(item.IsHome) ? "True" : "False"}}</label>
+                </td>
+                <td class="common-table-cell-small">
+                    <div class="table-controls">
+                        <i ng-if="!item.IsEdit" class="fa fa-pencil" title="Редактировать" ng-click="SetEditState(item);"></i>
+                        <i ng-if="!item.IsEdit" class="fa fa-trash" title="Удалить" ng-click="SetDeleteState(item);"></i>
+
+                        <i ng-if="item.IsEdit" class="fa fa-undo" title="Отменить редактирование" ng-click="SetEditState(item);"></i>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+</table>
+
+    <div class="pagination-controls" ui-pagination>
+    </div>
+
+</div>
+

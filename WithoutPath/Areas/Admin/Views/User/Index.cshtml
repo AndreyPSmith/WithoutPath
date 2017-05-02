@@ -1,0 +1,77 @@
+﻿@model  System.Collections.Generic.List<WithoutPath.DAL.Character>
+
+
+@{
+    ViewBag.Title = "Without Character";
+    Layout = "~/Areas/Default/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    @Styles.Render("~/Content/background_fix.css")
+}
+
+<div class="main-panel main-wrapper">
+
+    <h2>Without Characters</h2>
+
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Error))
+    {
+        <div class="characters-error">
+            <span class="text-danger">@ViewBag.Error</span>
+        </div>
+    }
+
+    <div class="character-wrapper">
+        @foreach (var item in Model)
+        {
+            <div class="character">
+                <ul>
+                    <li class="character-name">
+                        @using (Html.BeginForm("DeleteCharacter", "User", FormMethod.Post, new { id = "DeleteCharacterForm", area = "Admin" }))
+                        {
+                            @Html.Hidden("Id", item.Id)
+                            <span>@item.Name</span>
+                            <button type="submit" title="Удалить" class="icon-submit float-right">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        }
+                    </li>
+                    <li class="character-photo">
+                        <img src='@string.Format("https://imageserver.eveonline.com/Character/{0}_256.jpg", item.EveID)' onerror="this.src='/Content/images/member.svg';" alt="Logo" />
+                    </li>
+                    <li class="character-id">EveID - @item.EveID</li>
+                    <li class="character-is-main">
+                        @if (item.IsMain.HasValue && item.IsMain.Value)
+                        {
+                            <span class="character-main">Main <i class="fa fa-check"></i></span>
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("SetMain", "User", FormMethod.Post, new { id = "SetMainForm", area = "Admin" }))
+                            {
+                                @Html.Hidden("mainId", item.Id)
+                                <button type="submit" title="Set As Main" class="icon-submit">
+                                    Set As Main  
+                                </button>
+                            }
+                        }
+                    </li>
+                </ul>
+            </div>
+        }
+
+        <div class="character">
+            <ul>
+                <li class="add-character">
+                    <a href="@Url.Action("Authorize", "User", new { area = "Admin" })" title="Add Character">
+                        <span>Add Character</span>
+                        <img src="https://imageserver.eveonline.com/Character/1_256.jpg" onerror="this.src='/Content/images/member.svg';" alt="Logo" />
+                    </a>
+                </li>
+                <li class="character-id">-//-</li>
+                <li class="character-is-main">-//-</li>
+            </ul>
+        </div>
+
+    </div>
+</div>

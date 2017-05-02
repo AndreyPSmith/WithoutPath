@@ -1,0 +1,104 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    WithoutPath.DAL.Character character = null;
+    if (Request.IsAuthenticated)
+    {
+        var currentUser = ((WithoutPath.Controllers.BaseController)ViewContext.Controller).CurrentUser;
+        if(!(currentUser.Banned.HasValue && currentUser.Banned.Value))
+        {
+            character = currentUser.Characters.FirstOrDefault(x => !x.IsDeleted && x.IsMain.HasValue && x.IsMain.Value);
+        }
+    }
+}
+
+<ul>
+    @if (Request.IsAuthenticated)
+    {
+
+        <li>
+            @using (Html.BeginForm("LogOff", "Account", new { area = "Default" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+                <a id="LogOut" href="javascript:document.getElementById('logoutForm').submit()" data-toggle="tooltip" data-placement="right" title="Logout">
+                    <div class="hamburger" id="hamburger-cross">
+                        <span class="line"></span>
+                        <span class="line"></span>
+                        <span class="line"></span>
+                    </div>
+                </a>
+            }
+        </li>
+        <li>
+            <a href="@Url.Action("Index", "User", new { area = "Admin" })" data-toggle="tooltip" data-placement="right" title="User">
+                <figure class="character-logo-wrapper">
+                    <img src=@("https://imageserver.eveonline.com/Character/" + ((character != null)? character.EveID : 1) + "_64.jpg") onerror="this.src='@Url.Content("~/Content/images/member.svg")';" alt="Logo" class="logo-svg character-logo">
+                </figure>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li>
+
+            @if (ViewBag.LoginPage == null)
+            {
+                <a id="LoginPopup" href="#" data-toggle="tooltip" data-placement="right" title="Login">
+                    <div class="hamburger" id="hamburger-plus">
+                        <span class="line"></span>
+                        <span class="line"></span>
+                        <span class="line"></span>
+                    </div>
+                </a>
+            }
+
+        </li>
+        <li>
+            <a href="@Url.Action("Register", "Account", new { area = "Default" })" data-toggle="tooltip" data-placement="right" title="Register">
+                <img src="@Url.Content("~/Content/images/recruitment.svg")" alt="Logo" class="logo-svg">
+            </a>
+        </li>
+    }
+
+    <li>
+        <a href="@Url.Action("Index", "Home", new { area = "Default" })" data-toggle="tooltip" data-placement="right" title="Home">
+            <img src="@Url.Content("~/Content/images/browser.svg")" alt="Logo" class="logo-svg">
+        </a>
+    </li>
+
+    @if (Request.IsAuthenticated)
+    {
+        if (character != null)
+        {
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "Map" })" data-toggle="tooltip" data-placement="right" title="Map">
+                    <img src="@Url.Content("~/Content/images/map.svg")" alt="Logo" class="logo-svg">
+                </a>
+            </li>
+        }
+        if (User.IsInRole("admin"))
+        {
+            <li>
+                <a href="@Url.Action("Index", "Posts", new { area = "Admin" })" data-toggle="tooltip" data-placement="right" title="Posts">
+                    <img src="@Url.Content("~/Content/images/journal.svg")" alt="Logo" class="logo-svg">
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Users", new { area = "Admin" })" data-toggle="tooltip" data-placement="right" title="Users">
+                    <img src="@Url.Content("~/Content/images/grouplist.svg")" alt="Logo" class="logo-svg">
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Corporations", new { area = "Admin" })" data-toggle="tooltip" data-placement="right" title="Corporations">
+                    <img src="@Url.Content("~/Content/images/corporation.svg")" alt="Logo" class="logo-svg">
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "SpaceSystems", new { area = "Admin" })" data-toggle="tooltip" data-placement="right" title="Space Systems">
+                    <img src="@Url.Content("~/Content/images/systems.svg")" alt="Logo" class="logo-svg">
+                </a>
+            </li>
+        }
+    }
+
+</ul>

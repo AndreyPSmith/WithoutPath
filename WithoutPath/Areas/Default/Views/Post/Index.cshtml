@@ -1,0 +1,79 @@
+﻿@model WithoutPath.DAL.Post
+
+@{
+    ViewBag.Title = Model.Header;
+    Layout = "~/Areas/Default/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/Scripts/Default/comments-controller.js")
+}
+
+@section styles {
+    @Styles.Render("~/Content/background_fix.css")
+}
+
+<div class="main-wrapper">
+    <input type="hidden" id="PostID" value="@(Model.Id)" />
+    <input type="hidden" id="IsAdmin" value="@ViewBag.IsAdmin" />
+    <input type="hidden" id="MainID" value="@ViewBag.MainID" />
+
+    <div class="post-header">
+        <figure class="post-author-wrapper">
+            <img src=@("https://imageserver.eveonline.com/Character/"+ Model.Character.EveID +"_128.jpg")  alt="https://imageserver.eveonline.com/Character/1_128.jpg" class="post-author-logo">
+            <figcaption>
+              @Model.Character.Name
+            </figcaption>
+        </figure>
+
+        <h2>@Model.Header</h2>
+    </div>
+
+    <div class="post-wrapper">
+        <div class="post-content">
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+
+    <div ng-controller="CommentsCtrl" class="ng-scope comments-controller">
+
+        <div ng-repeat="comment in PageData.Comments" class="comment">
+            <figure class="comment-author-wrapper">
+                <img src="https://imageserver.eveonline.com/Character/{{comment.Character.EveID}}_128.jpg" onerror="this.src='@Url.Content("~/Content/images/member.svg")';" alt="Logo" class="comment-author-logo">
+                <figcaption>
+                    {{comment.Character.Name}}
+                </figcaption>
+            </figure>
+            <div class="comment-wrapper">
+                <div class="comment-content">
+                    <span ng-if="!comment.IsEdit">{{comment.Content}}</span>
+                    <textarea  ng-if="comment.IsEdit" style="resize:vertical;" ng-model="comment.Content" rows="3"></textarea>
+                </div>
+                <span  ng-if="!comment.IsEdit" class="comment-date">{{comment.Date}}</span>
+            </div>    
+            <div ng-if="comment.IsCanEdit" class="comment-controls">
+                <i ng-if="!comment.IsEdit" class="fa fa-trash" title="Удалить" ng-click="DeleteComment(comment);"></i>
+                <i ng-if="!comment.IsEdit" class="fa fa-pencil" title="Изменить" ng-click="EditComment(comment);"></i>
+                <i ng-if="comment.IsEdit" class="fa fa-undo" title="Отмена" ng-click="UndoComment(comment);"></i>
+                <i ng-if="comment.IsEdit" class="fa fa-floppy-o" title="Сохранить" ng-click="UpdateComment(comment);"></i>
+            </div>
+        </div>
+        <div ng-if="PageData.MainID != -1" class="comment">
+            <figure class="comment-author-wrapper">
+                <img src=@("https://imageserver.eveonline.com/Character/"+ (ViewBag.MainID == -1?  1 : ViewBag.MainID) + "_128.jpg") alt="https://imageserver.eveonline.com/Character/1_128.jpg" class="comment-author-logo">
+                <figcaption>
+                    New Comment
+                </figcaption>
+            </figure>
+            <div class="comment-wrapper">
+                <div class="comment-content">
+                    <textarea style="resize:vertical;" ng-model="PageData.NewCommentContent" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="comment-controls">
+                <i class="fa fa-floppy-o" title="Сохранить" ng-click="AddComment();"></i>
+            </div>
+        </div>
+    </div>
+</div>

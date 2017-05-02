@@ -1,0 +1,98 @@
+﻿@model  WithoutPath.DTO.PostModel
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Without Post";
+    Layout = "~/Areas/Default/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/gridstack")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/textangular")
+    @Scripts.Render("~/Scripts/Admin/post-controller.js")
+}
+
+@section styles {
+    @Styles.Render("~/Content/textAngular.css")
+    @Styles.Render("~/Content/gridstack.css")
+    @Styles.Render("~/Content/background_fix.css")
+}
+
+<div class="main-page-header"><h2>@(Model.Id == 0 ? "Создать пост" : "Изменить пост")</h2></div>
+
+@using (Html.BeginForm("Edit", "Posts", FormMethod.Post, new { id = "EditForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.Hidden("Id", Model.Id)
+    @Html.Hidden("Header", Model.Header)
+    @Html.Hidden("Content", Model.Content)
+    @Html.Hidden("Height", Model.Height)
+    @Html.Hidden("Width", Model.Width)
+    @Html.Hidden("IsFixed", Model.IsFixed)
+    @Html.Hidden("IsInternal", Model.IsInternal)
+    @Html.Hidden("IsVerified", Model.IsVerified)
+    @Html.Hidden("Picture", Model.Picture)
+}
+<div id="ng-app" ng-controller="PostCtrl" class="ng-scope">
+
+    <div class="grid-stack-wrapper" ui-preview>
+    </div>
+
+    <div class="container lighter">
+        <div text-angular ng-model="htmlContent" name="demo-editor" ta-text-editor-class="clearfix border-around container" ta-html-editor-class="border-around"></div>
+    </div>
+    <br />
+
+    <div class="post-controls-wrapper">
+        <label class="post-save-label">Сохранить: </label>
+
+        <i class="fa fa-floppy-o" title="Сохранить" ng-click="Save();"></i>
+
+        @if (Model.Id != 0 && User.IsInRole("admin"))
+        {
+            using (Html.BeginForm("Verify", "Posts", FormMethod.Post, new { @class = "inline", id = "VerifyForm" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.Hidden("VerifyId", Model.Id)
+                @Html.Hidden("VerifyStatus", Model.IsVerified)
+
+
+                if (Model.IsVerified)
+                {
+                    <i class="fa fa-thumbs-down unselected" title="Не проверенно"></i>
+                    <i class="fa fa-thumbs-up" title="Проверенно"></i>
+
+                    <script type="text/javascript">
+                        window.onload = function () {
+                            $(document).on("click", ".fa-thumbs-down", function () {
+                                $("#VerifyStatus").val(false);
+                                document.forms["VerifyForm"].submit();
+                            });
+                        }
+                    </script>
+                }
+                else
+                {
+                    <i class="fa fa-thumbs-down" title="Не проверенно"></i>
+                    <i class="fa fa-thumbs-up unselected" title="Проверенно"></i>
+
+                    <script type="text/javascript">
+                        window.onload = function () {
+                            $(document).on("click", ".fa-thumbs-up", function () {
+                                $("#VerifyStatus").val(true);
+                                document.forms["VerifyForm"].submit();
+                            });
+                        }
+                    </script>
+                }
+            }
+        }
+    </div>
+    <br />
+    <br />
+</div>

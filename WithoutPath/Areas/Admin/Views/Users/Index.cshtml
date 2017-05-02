@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "Without Users";
+    Layout = "~/Areas/Default/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/withoutusers")
+}
+
+@section styles {
+    @Styles.Render("~/Content/background_fix.css")
+}
+
+<div class="main-panel main-wrapper" ng-controller="UsersCtrl">
+
+    <h2>Without Users</h2>
+
+    <input type="text" class="Search" ng-model="PageableData.SearchString" placeholder="Введите текст" />
+    <i class="fa fa-search" ng-click="Search();"></i>
+
+    <table class="common-table common-table-hover">
+        <thead>
+            <tr>
+                <th class="common-table-cell-small">ID</th>
+                <th class="common-table-cell-medium">Email</th>
+                <th class="common-table-cell-small">AddedDate</th>
+                <th class="common-table-cell-medium">Roles</th>
+                <th class="common-table-cell-medium">Characters</th>
+                <th class="common-table-cell-large">Note</th>
+                <th class="common-table-cell-small">Banned</th>
+                <th class="common-table-cell-small">
+                    <div class="table-controls">
+                        <i class="fa fa-floppy-o" title="Сохранить" ng-click="Save();"></i>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="common-table-cell-small"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-medium"></td>
+                <td class="common-table-cell-large "></td>
+                <td class="common-table-cell-small"></td>
+                <td class="common-table-cell-small">
+                    <div class="table-controls">
+                        <i class="fa fa-plus" title="Добавить" ng-click="Add();"></i>
+                    </div>
+                </td>
+            </tr>
+
+            <tr ng-repeat="item in PageableData.List" ng-class="{none: item.IsEdit, error : item.IsToDelete}">
+                <td class="common-table-cell-small">{{item.Id}}</td>
+                <td class="common-table-cell-medium">
+                    <span ng-if="!item.IsEdit">{{item.Email}}</span>
+                    <input ng-if="item.IsEdit" type="text" ng-model="item.Email" />
+                    <span class="field-validation-error text-danger" ng-if="item.IsEdit && item.Validation.Email">{{item.Validation.Email}}</span>
+                </td>
+                <td class="common-table-cell-medium">
+                    <span>{{FormatDate(item.AddedDate)}}</span>
+                </td>
+                <td class="nested-table-wrapper">
+                    <table class="nested-table">
+                        <tbody>
+                            <tr ng-repeat="role in item.UserRoles">
+                                <td class="common-table-cell-medium nested-table-cell">
+                                    <i ng-if="item.IsEdit" class="fa fa-times" title="Удалить" ng-click="RemoveUserRole(item,role.RoleId);"></i>
+                                    <span>{{role.Role.Code}}</span>
+                                </td>
+                            </tr>
+
+                            <tr ng-if="item.IsEdit && (PageableData.Roles.length > item.UserRoles.length)">
+                                <td class="common-table-cell-medium nested-table-cell">
+                                    <i class="fa fa-plus" title="Добавить" ng-click="ShowRolesDropdown(item);"></i>
+                                    <div class="relative">
+                                        <ul ng-if="item.IsShowDropdown" class="dropdown-menu">
+                                            <li ng-repeat="role in PageableData.Roles" ng-if="IsContainsRole(item,role)" ng-click="AddUserRole(item,role.Id);">
+                                                {{role.Code}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="nested-table-wrapper">
+                    <table class="nested-table">
+                        <tbody>
+                            <tr ng-repeat="character in item.Characters">
+                                <td class="common-table-cell-medium nested-table-cell">
+                                    <span>{{character.Name}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="common-table-cell-large">
+                    <span ng-if="!item.IsEdit">{{(item.Note) ? item.Note : "-//-"}}</span>
+                    <textarea ng-if="item.IsEdit" style="resize:vertical;" ng-model="item.Note" rows="3"></textarea>
+                </td>
+                <td class="common-table-cell-small">
+                    <span ng-if="!item.IsEdit">{{(item.Banned) ? "True" : "False"}}</span>
+                    <input type="checkbox" ng-if="item.IsEdit" id="check{{item.$$hashKey}}" ng-model="item.Banned" />
+                    <label class="bool-label" ng-if="item.IsEdit" for="check{{item.$$hashKey}}">{{(item.Banned) ? "True" : "False"}}</label>
+                </td>
+                <td class="common-table-cell-small">
+                    <div class="table-controls">
+                        <i ng-if="!item.IsEdit" class="fa fa-pencil" title="Редактировать" ng-click="SetEditState(item);"></i>
+                        <i ng-if="!item.IsEdit" class="fa fa-trash" title="Удалить" ng-click="SetDeleteState(item);"></i>
+
+                        <i ng-if="item.IsEdit" class="fa fa-undo" title="Отменить редактирование" ng-click="SetEditState(item);"></i>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+</table>
+
+    <div class="pagination-controls" ui-pagination>
+    </div>
+
+</div>
