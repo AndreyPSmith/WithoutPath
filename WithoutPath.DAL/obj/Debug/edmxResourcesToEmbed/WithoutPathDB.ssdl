@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WithoutPathModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Characters">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CorporationID" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="SystemID" Type="int" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="Ship" Type="nvarchar" MaxLength="100" />
+    <Property Name="EveID" Type="bigint" Nullable="false" />
+    <Property Name="IsMain" Type="bit" />
+    <Property Name="TokenID" Type="int" />
+    <Property Name="ShipTypeID" Type="int" />
+    <Property Name="IsOnline" Type="bit" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CharacterID" Type="int" Nullable="false" />
+    <Property Name="PostID" Type="int" Nullable="false" />
+    <Property Name="Content" Type="ntext" Nullable="false" />
+    <Property Name="AddedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Corporations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Ticker" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="EveID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Links">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FromID" Type="int" Nullable="false" />
+    <Property Name="ToID" Type="int" Nullable="false" />
+    <Property Name="CharacterID" Type="int" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CharacterID" Type="int" Nullable="false" />
+    <Property Name="AddedDate" Type="datetime" Nullable="false" />
+    <Property Name="Header" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Content" Type="ntext" Nullable="false" />
+    <Property Name="Height" Type="int" Nullable="false" />
+    <Property Name="Width" Type="int" Nullable="false" />
+    <Property Name="IsVerified" Type="bit" Nullable="false" />
+    <Property Name="IsFixed" Type="bit" Nullable="false" />
+    <Property Name="IsInternal" Type="bit" Nullable="false" />
+    <Property Name="Picture" Type="varchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="50" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ShipType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EveID" Type="bigint" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SpaceSystems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IsWormhole" Type="bit" Nullable="false" />
+    <Property Name="EveID" Type="bigint" />
+    <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Security" Type="float" />
+    <Property Name="Note" Type="varchar(max)" />
+    <Property Name="IsHome" Type="bit" Nullable="false" />
+    <Property Name="TypeID" Type="int" />
+    <Property Name="Warning" Type="bit" />
+  </EntityType>
+  <EntityType Name="SpaceSystemStatics">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SpaceSystemID" Type="int" Nullable="false" />
+    <Property Name="StaticsID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Statics">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="SystemTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Class" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Tokens">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccessToken" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="TokenType" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="ExpiresIn" Type="int" Nullable="false" />
+    <Property Name="RefreshToken" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Expires" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="AddedDate" Type="datetime" Nullable="false" />
+    <Property Name="ActivatedDate" Type="datetime" />
+    <Property Name="ActivatedLink" Type="varchar" MaxLength="100" />
+    <Property Name="Note" Type="varchar(max)" />
+    <Property Name="Banned" Type="bit" />
+  </EntityType>
+  <Association Name="FK_Character_Corporation_Id">
+    <End Role="Corporations" Type="Self.Corporations" Multiplicity="0..1" />
+    <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Corporations">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="CorporationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Characters_ShipTypeID">
+    <End Role="ShipType" Type="Self.ShipType" Multiplicity="0..1" />
+    <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShipType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="ShipTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_CharacterID">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_PostID">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Form_SpaceSystem_Id">
+    <End Role="SpaceSystems" Type="Self.SpaceSystems" Multiplicity="1" />
+    <End Role="Links" Type="Self.Links" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpaceSystems">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Links">
+        <PropertyRef Name="FromID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Links_CharacterID">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="0..1" />
+    <End Role="Links" Type="Self.Links" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Links">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_CharacterID">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SpaceSystem_SystemType_Id">
+    <End Role="SystemTypes" Type="Self.SystemTypes" Multiplicity="0..1" />
+    <End Role="SpaceSystems" Type="Self.SpaceSystems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SystemTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpaceSystems">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SpaceSystemStatics_SpaceSystem_Id">
+    <End Role="SpaceSystems" Type="Self.SpaceSystems" Multiplicity="1" />
+    <End Role="SpaceSystemStatics" Type="Self.SpaceSystemStatics" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpaceSystems">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpaceSystemStatics">
+        <PropertyRef Name="SpaceSystemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SpaceSystemStatics_Statics_Id">
+    <End Role="Statics" Type="Self.Statics" Multiplicity="1" />
+    <End Role="SpaceSystemStatics" Type="Self.SpaceSystemStatics" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Statics">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpaceSystemStatics">
+        <PropertyRef Name="StaticsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_To_SpaceSystem_Id">
+    <End Role="SpaceSystems" Type="Self.SpaceSystems" Multiplicity="1" />
+    <End Role="Links" Type="Self.Links" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpaceSystems">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Links">
+        <PropertyRef Name="ToID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_Role_Id">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_User_Id">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Сharacter_SpaceSystem_Id">
+    <End Role="SpaceSystems" Type="Self.SpaceSystems" Multiplicity="0..1" />
+    <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpaceSystems">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="SystemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Сharacter_User_Id">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WithoutPathModelStoreContainer">
+    <EntitySet Name="Characters" EntityType="Self.Characters" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Corporations" EntityType="Self.Corporations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Links" EntityType="Self.Links" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShipType" EntityType="Self.ShipType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SpaceSystems" EntityType="Self.SpaceSystems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SpaceSystemStatics" EntityType="Self.SpaceSystemStatics" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Statics" EntityType="Self.Statics" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SystemTypes" EntityType="Self.SystemTypes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tokens" EntityType="Self.Tokens" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Character_Corporation_Id" Association="Self.FK_Character_Corporation_Id">
+      <End Role="Corporations" EntitySet="Corporations" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Characters_ShipTypeID" Association="Self.FK_Characters_ShipTypeID">
+      <End Role="ShipType" EntitySet="ShipType" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_CharacterID" Association="Self.FK_Comment_CharacterID">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_PostID" Association="Self.FK_Comment_PostID">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Form_SpaceSystem_Id" Association="Self.FK_Form_SpaceSystem_Id">
+      <End Role="SpaceSystems" EntitySet="SpaceSystems" />
+      <End Role="Links" EntitySet="Links" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Links_CharacterID" Association="Self.FK_Links_CharacterID">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="Links" EntitySet="Links" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_CharacterID" Association="Self.FK_Post_CharacterID">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SpaceSystem_SystemType_Id" Association="Self.FK_SpaceSystem_SystemType_Id">
+      <End Role="SystemTypes" EntitySet="SystemTypes" />
+      <End Role="SpaceSystems" EntitySet="SpaceSystems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SpaceSystemStatics_SpaceSystem_Id" Association="Self.FK_SpaceSystemStatics_SpaceSystem_Id">
+      <End Role="SpaceSystems" EntitySet="SpaceSystems" />
+      <End Role="SpaceSystemStatics" EntitySet="SpaceSystemStatics" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SpaceSystemStatics_Statics_Id" Association="Self.FK_SpaceSystemStatics_Statics_Id">
+      <End Role="Statics" EntitySet="Statics" />
+      <End Role="SpaceSystemStatics" EntitySet="SpaceSystemStatics" />
+    </AssociationSet>
+    <AssociationSet Name="FK_To_SpaceSystem_Id" Association="Self.FK_To_SpaceSystem_Id">
+      <End Role="SpaceSystems" EntitySet="SpaceSystems" />
+      <End Role="Links" EntitySet="Links" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_Role_Id" Association="Self.FK_UserRole_Role_Id">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_User_Id" Association="Self.FK_UserRole_User_Id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserRoles" EntitySet="UserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Сharacter_SpaceSystem_Id" Association="Self.FK_Сharacter_SpaceSystem_Id">
+      <End Role="SpaceSystems" EntitySet="SpaceSystems" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Сharacter_User_Id" Association="Self.FK_Сharacter_User_Id">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

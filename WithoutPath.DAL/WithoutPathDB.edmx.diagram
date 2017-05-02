@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ba5ccd0f86214ae9ad3c28068f3b68a5" Name="Diagram1">
+        <EntityTypeShape EntityType="WithoutPathModel.Character" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.Comment" Width="1.5" PointX="7.5" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.Corporation" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.Link" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.Post" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.Role" Width="1.5" PointX="3.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.ShipType" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.SpaceSystem" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.SpaceSystemStatic" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.Static" Width="1.5" PointX="0.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.SystemType" Width="1.5" PointX="1.5" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.Token" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.UserRole" Width="1.5" PointX="6" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WithoutPathModel.User" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <AssociationConnector Association="WithoutPathModel.FK_Character_Corporation_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_Characters_ShipTypeID" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_Comment_CharacterID" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_Links_CharacterID" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_Post_CharacterID" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_Сharacter_SpaceSystem_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_Сharacter_User_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_Comment_PostID" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_Form_SpaceSystem_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_To_SpaceSystem_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_UserRole_Role_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_SpaceSystem_SystemType_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_SpaceSystemStatics_SpaceSystem_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_SpaceSystemStatics_Statics_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="WithoutPathModel.FK_UserRole_User_Id" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
