@@ -1,0 +1,9 @@
+C:\Users\Admin\Documents\Visual Studio 2013\Projects\WithoutPath\WithoutPath.DTO\bin\Debug\WithoutPath.DTO.dll
+C:\Users\Admin\Documents\Visual Studio 2013\Projects\WithoutPath\WithoutPath.DTO\bin\Debug\WithoutPath.DTO.pdb
+C:\Users\Admin\Documents\Visual Studio 2013\Projects\WithoutPath\WithoutPath.DTO\obj\Debug\WithoutPath.DTO.dll
+C:\Users\Admin\Documents\Visual Studio 2013\Projects\WithoutPath\WithoutPath.DTO\obj\Debug\WithoutPath.DTO.pdb
+C:\Users\erem0506\Documents\Visual Studio 2015\Projects\WithoutPath\WithoutPath.DTO\bin\Debug\WithoutPath.DTO.dll
+C:\Users\erem0506\Documents\Visual Studio 2015\Projects\WithoutPath\WithoutPath.DTO\bin\Debug\WithoutPath.DTO.pdb
+C:\Users\erem0506\Documents\Visual Studio 2015\Projects\WithoutPath\WithoutPath.DTO\obj\Debug\WithoutPath.DTO.dll
+C:\Users\erem0506\Documents\Visual Studio 2015\Projects\WithoutPath\WithoutPath.DTO\obj\Debug\WithoutPath.DTO.pdb
+C:\Users\erem0506\Documents\Visual Studio 2015\Projects\WithoutPath\WithoutPath.DTO\obj\Debug\WithoutPath.DTO.csprojResolveAssemblyReference.cache
